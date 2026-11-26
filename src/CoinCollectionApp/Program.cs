@@ -6,7 +6,7 @@ namespace CoinCollectionApp;
 
 internal static class Program
 {
-    private static readonly CultureInfo UsCulture = CultureInfo.GetCultureInfo("en-US");
+    private readonly static CultureInfo UsCulture = CultureInfo.GetCultureInfo("en-US");
     public static int Main(string[] args)
     {
         if (args is ["--help"] or ["-h"])
