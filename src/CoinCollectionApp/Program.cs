@@ -25,12 +25,14 @@ internal static class Program
             Console.WriteLine($"Collection file: {path}");
             var session = new CollectionSession(new JsonCollectionStorage(path));
             var loaded = session.Open();
-            if (loaded.Status is not (LoadStatus.Loaded or LoadStatus.Created))
+
+            if (loaded.Status is LoadStatus.Loaded or LoadStatus.Created)
             {
-                Console.Error.WriteLine($"Could not open collection ({loaded.Status}): {loaded.Error}");
-                return 1;
+                return Run(session);
             }
-            return Run(session);
+
+            Console.Error.WriteLine($"Could not open collection ({loaded.Status}): {loaded.Error}");
+            return 1;
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or System.Security.SecurityException)
         {
