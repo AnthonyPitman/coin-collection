@@ -1,6 +1,11 @@
 <Solution>
   <Folder Name="/SolutionItems/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitattributes" />
     <File Path="../.gitignore" />
+    <File Path="../AGENTS.md" />
+    <File Path="../Directory.Build.props" />
+    <File Path="../GLOSSARY.md" />
     <File Path="../LICENSE" />
     <File Path="../README.md" />
     <File Path="global.json" />
@@ -8,6 +13,15 @@
   <Project Path="CoinCollectionApp/CoinCollectionApp.csproj" />
   <Project Path="CoinCollection.Core/CoinCollection.Core.csproj" />
   <Project Path="CoinCollection.Storage/CoinCollection.Storage.csproj" />
+  <Folder Name="/SolutionItems/docs/" />
+  <Folder Name="/SolutionItems/docs/agents/">
+    <File Path="../docs/agents/domain.md" />
+    <File Path="../docs/agents/issue-tracker.md" />
+    <File Path="../docs/agents/triage-labels.md" />
+  </Folder>
+  <Folder Name="/SolutionItems/docs/research/">
+    <File Path="../docs/research/offline-coin-catalog.md" />
+  </Folder>
   <Project Path="CoinCollection.Core.Tests/CoinCollection.Core.Tests.csproj" />
   <Project Path="CoinCollection.Storage.Tests/CoinCollection.Storage.Tests.csproj" />
 </Solution>
