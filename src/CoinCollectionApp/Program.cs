@@ -23,7 +23,7 @@ internal static class Program
         {
             var path = args.Length == 2 ? Path.GetFullPath(args[1]) : DefaultPath();
             Console.WriteLine($"Collection file: {path}");
-            var session = new CollectionSession(new JsonCollectionStorage(path));
+            CollectionSession session = new(new JsonCollectionStorage(path));
             var loaded = session.Open();
 
             if (loaded.Status is LoadStatus.Loaded or LoadStatus.Created)
@@ -139,7 +139,7 @@ internal static class Program
                 { design = index == 0 ? CoinDesign.Unknown : lookup.Candidates[index - 1].Design; break; }
                 Console.WriteLine("Choose one of the displayed design numbers.");
             }
-            var coin = new CoinIdentity(type.Id, year, mint, design);
+            CoinIdentity coin = new(type.Id, year, mint, design);
             var validation = session.Add(new AddRequest(coin));
             if (validation.Status != AddStatus.ConfirmationRequired) { Console.WriteLine(validation.Error); return true; }
             Console.WriteLine(validation.Error);
