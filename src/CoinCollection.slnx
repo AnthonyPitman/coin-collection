@@ -6,4 +6,8 @@
     <File Path="global.json" />
   </Folder>
   <Project Path="CoinCollectionApp/CoinCollectionApp.csproj" />
+  <Project Path="CoinCollection.Core/CoinCollection.Core.csproj" />
+  <Project Path="CoinCollection.Storage/CoinCollection.Storage.csproj" />
+  <Project Path="CoinCollection.Core.Tests/CoinCollection.Core.Tests.csproj" />
+  <Project Path="CoinCollection.Storage.Tests/CoinCollection.Storage.Tests.csproj" />
 </Solution>
