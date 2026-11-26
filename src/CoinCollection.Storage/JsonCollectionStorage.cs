@@ -114,5 +114,3 @@ public sealed class JsonCollectionStorage : ICollectionStorage
     private static StorageRevision Revision(byte[] bytes) => new(Convert.ToHexString(SHA256.HashData(bytes)));
     private sealed record CollectionDocument(int FormatVersion, CollectionEntry[] Entries);
 }
-
-

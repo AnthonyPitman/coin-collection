@@ -57,4 +57,3 @@ public static class CoinValidation
     }
     private static bool ValidField(DesignField? field) => field is not null && Enum.IsDefined(field.State) && (field.State == ValueState.Known ? !string.IsNullOrWhiteSpace(field.Value) && field.Value.Length <= 200 : field.Value is null);
 }
-
