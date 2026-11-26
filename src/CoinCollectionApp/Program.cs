@@ -147,15 +147,19 @@ internal static class Program
             if (confirmation is null) return false;
             if (!confirmation.Equals("y", StringComparison.OrdinalIgnoreCase)) return true;
             var result = session.Add(new AddRequest(coin, 1, true));
-            if (result.Status == AddStatus.AppliedAndSaved)
-                Console.WriteLine($"Added one {Describe(coin)}. Entry quantity: {result.ResultingQuantity}. Saved.");
-            else if (result.Status == AddStatus.AppliedButUnsaved)
+            switch (result)
             {
-                Console.WriteLine($"Added in memory only. Entry quantity: {result.ResultingQuantity}.");
-                ShowSave(result.Save!);
-                return true;
+                case { Status: AddStatus.AppliedAndSaved }:
+                    Console.WriteLine($"Added one {Describe(coin)}. Entry quantity: {result.ResultingQuantity}. Saved.");
+
+                    break;
+                case { Status: AddStatus.AppliedButUnsaved }:
+                    Console.WriteLine($"Added in memory only. Entry quantity: {result.ResultingQuantity}.");
+                    ShowSave(result.Save!);
+                    return true;
+                default:
+                    Console.WriteLine(result.Error); return true;
             }
-            else { Console.WriteLine(result.Error); return true; }
             var another = Read($"Add another {type.Name}? [y/N]: ");
             if (another is null) return false;
             if (!another.Equals("y", StringComparison.OrdinalIgnoreCase)) return true;
