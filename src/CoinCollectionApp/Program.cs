@@ -121,7 +121,7 @@ internal static class Program
                 mint = input.Length == 0 || input.Equals("none", StringComparison.OrdinalIgnoreCase) ? MintMark.None
                     : input.Equals("unknown", StringComparison.OrdinalIgnoreCase) || input == "?" ? MintMark.Unknown
                     : MintMark.Explicit(input.ToUpperInvariant());
-                var error = CoinValidation.Validate(new(type.Id, year, mint, CoinDesign.Unknown), 1);
+                var error = CoinValidation.Validate(new CoinIdentity(type.Id, year, mint, CoinDesign.Unknown), 1);
                 if (error is null) break;
                 Console.WriteLine(error);
             }
@@ -140,13 +140,13 @@ internal static class Program
                 Console.WriteLine("Choose one of the displayed design numbers.");
             }
             var coin = new CoinIdentity(type.Id, year, mint, design);
-            var validation = session.Add(new(coin));
+            var validation = session.Add(new AddRequest(coin));
             if (validation.Status != AddStatus.ConfirmationRequired) { Console.WriteLine(validation.Error); return true; }
             Console.WriteLine(validation.Error);
             var confirmation = Read($"Add one {Describe(coin)}? [y/N]: ");
             if (confirmation is null) return false;
             if (!confirmation.Equals("y", StringComparison.OrdinalIgnoreCase)) return true;
-            var result = session.Add(new(coin, 1, true));
+            var result = session.Add(new AddRequest(coin, 1, true));
             if (result.Status == AddStatus.AppliedAndSaved)
                 Console.WriteLine($"Added one {Describe(coin)}. Entry quantity: {result.ResultingQuantity}. Saved.");
             else if (result.Status == AddStatus.AppliedButUnsaved)
