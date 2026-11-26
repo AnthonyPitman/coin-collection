@@ -1,14 +1,21 @@
 namespace CoinCollection.Core;
 
 public sealed record Denomination(string Name, decimal FaceValue);
-public sealed record CoinType(string Id, string Name, string Denomination);
+public sealed record CoinType(string Id, string Name, Denomination Denomination);
 public static class CoinTypes
 {
+    private static readonly Denomination Cent = new("Cent", .01m);
+    private static readonly Denomination Nickel = new("Nickel", .05m);
+    private static readonly Denomination Dime = new("Dime", .10m);
+    private static readonly Denomination Quarter = new("Quarter", .25m);
+    private static readonly Denomination HalfDollar = new("Half dollar", .50m);
+    private static readonly Denomination Dollar = new("Dollar", 1m);
+
     public static IReadOnlyList<Denomination> Denominations { get; } = Array.AsReadOnly(new[] {
-        new Denomination("Cent", .01m), new("Nickel", .05m), new("Dime", .10m), new("Quarter", .25m), new("Half dollar", .50m), new("Dollar", 1m) });
+        Cent, Nickel, Dime, Quarter, HalfDollar, Dollar });
     public static IReadOnlyList<CoinType> All { get; } = Array.AsReadOnly(new[] {
-        new CoinType("penny", "Penny", "Cent"), new("nickel", "Nickel", "Nickel"), new("dime", "Dime", "Dime"), new("quarter", "Quarter", "Quarter"), new("half-dollar", "Half dollar", "Half dollar"),
-        new("eisenhower-dollar", "Eisenhower dollar", "Dollar"), new("susan-b-anthony-dollar", "Susan B. Anthony dollar", "Dollar"), new("sacagawea-dollar", "Sacagawea dollar", "Dollar"), new("presidential-dollar", "Presidential dollar", "Dollar"), new("american-innovation-dollar", "American Innovation dollar", "Dollar") });
+        new CoinType("penny", "Penny", Cent), new("nickel", "Nickel", Nickel), new("dime", "Dime", Dime), new("quarter", "Quarter", Quarter), new("half-dollar", "Half dollar", HalfDollar),
+        new("eisenhower-dollar", "Eisenhower dollar", Dollar), new("susan-b-anthony-dollar", "Susan B. Anthony dollar", Dollar), new("sacagawea-dollar", "Sacagawea dollar", Dollar), new("presidential-dollar", "Presidential dollar", Dollar), new("american-innovation-dollar", "American Innovation dollar", Dollar) });
     public static CoinType? Find(string id) => All.FirstOrDefault(t => t.Id == id);
 }
 public enum ValueState { Known, Unknown, NotApplicable }

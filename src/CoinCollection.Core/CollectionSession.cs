@@ -37,7 +37,7 @@ public sealed class CollectionSession(ICollectionStorage storage)
         {
             var rows = CoinTypes.Denominations.Select(d =>
             {
-                var count = Snapshot.Entries.Where(e => CoinTypes.Find(e.Coin.CoinTypeId)?.Denomination == d.Name).Sum(e => (long)e.Quantity);
+                var count = Snapshot.Entries.Where(e => CoinTypes.Find(e.Coin.CoinTypeId)?.Denomination == d).Sum(e => (long)e.Quantity);
                 return new DenominationSummary(d.Name, count, count * d.FaceValue);
             }).ToArray();
             return new(Array.AsReadOnly(rows), rows.Sum(r => r.CoinCount), rows.Sum(r => r.FaceValue));
