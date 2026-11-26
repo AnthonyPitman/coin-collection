@@ -74,7 +74,14 @@ public sealed class CollectionSession(ICollectionStorage storage)
         if (request.Quantity > int.MaxValue - oldQuantity) return new(AddStatus.Invalid, "Resulting quantity exceeds the supported maximum.");
         var quantity = oldQuantity + request.Quantity;
         if (index < 0) entries.Add(new(request.Coin, quantity));
-        else entries[index] = new(request.Coin, quantity);
+        else
+        {
+            var existing = entries[index].Coin;
+            var combined = existing.Design.DateInscription is null && request.Coin.Design.DateInscription is not null
+                ? existing with { Design = existing.Design with { DateInscription = request.Coin.Design.DateInscription } }
+                : existing;
+            entries[index] = new(combined, quantity);
+        }
         Snapshot = new(entries);
         HasPendingChanges = true;
         var save = RetrySave();
