@@ -43,8 +43,10 @@ internal static class Program
     private static string DefaultPath()
     {
         var directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        if (string.IsNullOrWhiteSpace(directory)) throw new IOException("The per-user local application data directory could not be resolved.");
-        return Path.Combine(directory, "coin-collection", "collection.json");
+
+        return string.IsNullOrWhiteSpace(directory)
+            ? throw new IOException("The per-user local application data directory could not be resolved.")
+            : Path.Combine(directory, "coin-collection", "collection.json");
     }
     private static int Run(CollectionSession session)
     {
