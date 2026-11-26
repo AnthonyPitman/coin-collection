@@ -42,6 +42,18 @@ dotnet build CoinCollection.slnx
 dotnet test CoinCollection.slnx
 ```
 
+Shared settings live in the root `Directory.Build.props` and `.editorconfig` and apply to all projects, including tests. Nullable reference types, implicit usings, and the SDK's .NET analyzers are enabled centrally. Analysis is pinned to .NET 10. Selected code style rules report warnings during builds: file-scoped namespaces, usings outside namespaces, explicit accessibility, and braces for multiline control flow. Warnings do not fail the build; use `dotnet build CoinCollection.slnx -warnaserror` for a strict check.
+
+The editor settings use UTF-8, LF line endings, four-space C# indentation, and two-space project/XML and JSON indentation. Single-line statements and blocks are allowed. Whitespace formatting is checked separately from compilation. From `src`, run:
+
+```powershell
+dotnet format CoinCollection.slnx --verify-no-changes --no-restore
+```
+
+To apply formatting and configured style fixes, omit `--verify-no-changes`. Build once first so package assets are available for `--no-restore`.
+
+The root `.gitattributes` keeps text files LF in Git and in working copies on every platform, overriding `core.autocrlf` for this repository. `.editorconfig` uses the same policy so saving or formatting files does not change their line endings. Windows `.bat` and `.cmd` scripts use CRLF in working copies. No global Git configuration change is needed.
+
 Core tests exercise the public collection session, identity/quantity operations, summaries, validation, incomplete-catalog confirmation, and save retries through a controlled storage boundary. Storage integration tests use temporary files for JSON round trips, invalid/unsupported data preservation, revision conflicts, cooperating writers, and failed replacement. The replacement-sharing test applies to Windows sharing semantics.
 
 For a scripted CLI check, pipe these lines into the built app (or enter them interactively):

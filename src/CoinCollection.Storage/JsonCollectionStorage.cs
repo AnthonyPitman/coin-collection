@@ -107,8 +107,11 @@ public sealed class JsonCollectionStorage : ICollectionStorage
                 if (!names.Add(property.Name) || HasDuplicateProperties(property.Value)) return true;
         }
         else if (element.ValueKind == JsonValueKind.Array)
+        {
             foreach (var item in element.EnumerateArray())
                 if (HasDuplicateProperties(item)) return true;
+        }
+
         return false;
     }
     private static StorageRevision Revision(byte[] bytes) => new(Convert.ToHexString(SHA256.HashData(bytes)));
