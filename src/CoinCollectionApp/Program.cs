@@ -14,7 +14,7 @@ internal static class Program
             Console.WriteLine("Usage: coin-collection [--file <path>]");
             return 0;
         }
-        if (args.Length != 0 && (args.Length != 2 || args[0] != "--file"))
+        if (args.Length != 0 && args is not ["--file", _])
         {
             Console.Error.WriteLine("Usage: coin-collection [--file <path>]");
             return 1;
